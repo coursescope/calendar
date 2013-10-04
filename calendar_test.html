@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<script type="text/javascript" src="jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="calendar.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="calendar.css" />
+
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#calendarDiv').append(calendar.drawCal(800,400));
+		calendar.addClass(calendar.makeCourse("8","9","MW","Physics",calendar.makeCourse("16","17","R","Physics",null)),false)
+		calendar.addClass(calendar.makeCourse("11","12:30","TR","Math",null),false)
+		calendar.addClass(calendar.makeCourse("14","15","MWRF","Poetry",null),false)
+
+		$("#classSubmitBtn").click(function(event) {
+			event.preventDefault();
+			calendar.addClass(calendar.makeCourse(	$("#startTimeField").val(),
+													$("#endTimeField").val(),
+													$("#meetingDaysField").val(),
+													$("#classNameField").val(),
+													null),false)
+		});
+	});
+</script>
+</head>
+
+<body>
+	<h3> This is a test page for the courseseek calendar! </h3>
+	<div id="classEntry">
+		Class Name: <input type="text" id="classNameField" />
+		Meets (days): <input type="text" id="meetingDaysField" />
+		Start Time: <input type="text" id="startTimeField" />
+		End Time: <input type="text" id="endTimeField" />
+		<button id="classSubmitBtn">Add Class</button>
+	</div>
+	<div id="calendarDiv"></div>
+</body>
+
+</html>

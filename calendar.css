@@ -1,0 +1,22 @@
+#cs-calendarTable tr td {
+	border:2px solid black;
+}
+#cs-calendarTable {
+	border-collapse:collapse;
+}
+
+#classEntry {
+	padding: 20px;
+}
+
+.cs-classbox {
+	border:1px solid; 
+	position: absolute;
+	background-color: purple;
+}
+
+.cs-sectionbox {
+	border:1px solid; 
+	position: absolute;
+	background-color: red;
+}
