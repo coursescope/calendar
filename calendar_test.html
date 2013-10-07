@@ -12,18 +12,21 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('#calendarDiv').append(calendar.drawCal(800,400));
-		calendar.addClass(calendar.makeCourse("8","9","MW","Physics",calendar.makeCourse("16","17","R","Physics",null)),false)
-		calendar.addClass(calendar.makeCourse("11","12:30","TR","Math",null),false)
-		calendar.addClass(calendar.makeCourse("14","15","MWRF","Poetry",null),false)
+		calendar.addClass(calendar.makeCourse(1,"8","9","MW","Physics",calendar.makeCourse(4,"16","17","R","Physics",null)),false)
+		calendar.addClass(calendar.makeCourse(2,"11","12:30","TR","Math",null),false)
+		calendar.addClass(calendar.makeCourse(3,"14","15","MWRF","Poetry",null),false)
 
 		$("#classSubmitBtn").click(function(event) {
 			event.preventDefault();
-			calendar.addClass(calendar.makeCourse(	$("#startTimeField").val(),
+			calendar.addClass(calendar.makeCourse(	10,
+													$("#startTimeField").val(),
 													$("#endTimeField").val(),
 													$("#meetingDaysField").val(),
 													$("#classNameField").val(),
-													null),false)
+													null),false);
+
 		});
+
 		calendar.init();
 	});
 </script>

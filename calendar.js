@@ -30,6 +30,9 @@
 
 	var DEBUG = 0
 
+	m_selectedElem = null
+	m_courseCells = {}
+
 	calendar.addClass = function(course,section) {
 		dayNums = (function(dayStr) {
 			arr = []
@@ -42,23 +45,29 @@
 
 		for (day in dayNums) {
 			cell_id = "#" + course.start_t + "-" + dayNums[day];
-			cellposn = $(cell_id).offset()
+			if (m_courseCells[course.unique_id] == undefined) {
+				m_courseCells[course.unique_id] = []
+			}
+			m_courseCells[course.unique_id].push(cell_id)
+			
+			cellposn = $(cell_id).offset();
+			
 			if (DEBUG) {
 				console.log("Cell Posn: " + cellposn.left + " " + cellposn.top)
 				console.log("LEN: " + timeToMinutes(course.end_t) + ", " + timeToMinutes(course.start_t))
 			}
 			var elemHeight = ((timeToMinutes(course.end_t) - timeToMinutes(course.start_t))/10 * TEN_MINUTE_HEIGHT + 1);
 
-			classbox = "<div class='cs-calElem " +  (section ? "cs-sectionbox" : "cs-classbox") + "' style='top: " + (cellposn.top + 1) + "px; left: " + (cellposn.left + 1) + "px; width: " + (CELL_WIDTH + 2) + "px; height: " + elemHeight + "px;'><span style='line-height:" + elemHeight + "px'>" + course.title.toUpperCase() + "</span></div>"
+			classbox = "<div id='" + course.start_t + "-" + dayNums[day] + "' class='cs-calElem " +  (section ? "cs-sectionbox" : "cs-classbox") + "' style='top: " + (cellposn.top + 1) + "px; left: " + (cellposn.left + 1) + "px; width: " + (CELL_WIDTH + 2) + "px; height: " + elemHeight + "px;'><span id='" + course.start_t + "-" + dayNums[day] + "-span' style='line-height:" + elemHeight + "px'>" + course.title.toUpperCase() + "</span></div>"
 			backgroundDiv = "<div style='position:absolute; background:white; top: " + (cellposn.top + 1) + "px; left: " + (cellposn.left + 1) + "px; width: " + (CELL_WIDTH + 2) + "px; height: " + elemHeight + "px;'></div>"
 
+			$("#cs-calendarTable").append(backgroundDiv)
 			$("#cs-calendarTable").append(classbox)
-			$(cell_id).append(backgroundDiv)
+
 		}
 		if (!section && course.section != null) {
 			calendar.addClass(course.section,true)
 		}
-		calendar.init();
 	}
 
 	function makeCell(width,height,unique_id) {
@@ -99,17 +108,36 @@
 		return -1
 	}
 
-	calendar.makeCourse = function(start_t,end_t,days,title,section) {
-		return { "unique_id": 0, "title": title, "start_t": start_t, "end_t": end_t, "days": days, "section": section }
+	calendar.makeCourse = function(uid,start_t,end_t,days,title,section) {
+		return { "unique_id": uid, "title": title, "start_t": start_t, "end_t": end_t, "days": days, "section": section }
 	}
 
+	calendar.findSiblings = function(elem_id) {
+		for (s in m_courseCells) {
+			if ($.inArray(elem_id,m_courseCells[s]) != -1) {
+				console.log("findSiblings returning: ");
+				console.log(m_courseCells[s]);
+				return m_courseCells[s];
+			}
+		}
+		return null;
+	}
 	calendar.init = function() {
-		// set up event handlers
 		$('.cs-sectionbox').click(function() {
-			$(this).css('background-color','green');
-		});
+			uid = $(this).attr('id');
+
+			siblings = calendar.findSiblings('#' + uid);
+			for (s in siblings) {
+				$(siblings[s] + "-span").parent().toggleClass('cs-sectionbox cs-sectionbox-selected');
+			}
+		});	
 		$('.cs-classbox').click(function() {
-			$(this).css('background-color','blue');
+			uid = $(this).attr('id');
+
+			siblings = calendar.findSiblings('#' + uid);
+			for (s in siblings) {
+				$(siblings[s] + "-span").parent().toggleClass('cs-classbox cs-classbox-selected');
+			}
 		});
 	}
 }( window.calendar = window.calendar || {}, jQuery ));

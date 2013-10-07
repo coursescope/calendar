@@ -12,12 +12,12 @@
 /* mouseover animation for calendar boxes */
 @-webkit-keyframes cs-cal-mouseover {
     from { opacity: 1.0; } 
-    to { opacity: 0.5; }
+    to { opacity: 0.7; }
 }
 
 @keyframes cs-cal-mouseover {
-    from { background: blue; opacity: 0.0; } 
-    to { background: blue; opacity: 0.5; }
+    from { background: blue; opacity: 1.0; } 
+    to { background: blue; opacity: 0.7; }
 }
 
 #cs-calendarTable tr td {
@@ -44,6 +44,11 @@
 .cs-classbox {
 	background-color: #6B71B2;
 }
+.cs-classbox-selected {
+	background-color: #6B71B2;
+	opacity: 0.5;
+}
+
 .cs-classbox:hover {
 	background-color: #6B71B2;
 	animation: cs-cal-mouseover 1s forwards;
@@ -52,4 +57,14 @@
 
 .cs-sectionbox {
 	background-color: #68C4ED;
+}
+.cs-sectionbox-selected {
+	background-color: #68C4ED;
+	opacity:0.5;
+}
+
+.cs-sectionbox:hover {
+	/*background-color: #68C4ED;*/
+	animation: cs-cal-mouseover 1s forwards;
+	-webkit-animation: cs-cal-mouseover 1s forwards; /* Safari and Chrome */
 }
