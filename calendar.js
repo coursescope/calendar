@@ -41,17 +41,24 @@
 		})(course.days);
 
 		for (day in dayNums) {
-			cellposn = $("#" + course.start_t + "-" + dayNums[day]).offset()
+			cell_id = "#" + course.start_t + "-" + dayNums[day];
+			cellposn = $(cell_id).offset()
 			if (DEBUG) {
 				console.log("Cell Posn: " + cellposn.left + " " + cellposn.top)
 				console.log("LEN: " + timeToMinutes(course.end_t) + ", " + timeToMinutes(course.start_t))
 			}
-			classbox = "<div class='" +  (section ? "cs-sectionbox" : "cs-classbox") + "' style='top: " + (cellposn.top + 1) + "px; left: " + (cellposn.left + 1) + "px; width: " + (CELL_WIDTH + 2) + "px; height: " + ((timeToMinutes(course.end_t) - timeToMinutes(course.start_t))/10 * TEN_MINUTE_HEIGHT + 2) + "px;'>" + course.title + "</div>"
+			var elemHeight = ((timeToMinutes(course.end_t) - timeToMinutes(course.start_t))/10 * TEN_MINUTE_HEIGHT + 1);
+
+			classbox = "<div class='cs-calElem " +  (section ? "cs-sectionbox" : "cs-classbox") + "' style='top: " + (cellposn.top + 1) + "px; left: " + (cellposn.left + 1) + "px; width: " + (CELL_WIDTH + 2) + "px; height: " + elemHeight + "px;'><span style='line-height:" + elemHeight + "px'>" + course.title.toUpperCase() + "</span></div>"
+			backgroundDiv = "<div style='position:absolute; background:white; top: " + (cellposn.top + 1) + "px; left: " + (cellposn.left + 1) + "px; width: " + (CELL_WIDTH + 2) + "px; height: " + elemHeight + "px;'></div>"
+
 			$("#cs-calendarTable").append(classbox)
+			$(cell_id).append(backgroundDiv)
 		}
 		if (!section && course.section != null) {
 			calendar.addClass(course.section,true)
 		}
+		calendar.init();
 	}
 
 	function makeCell(width,height,unique_id) {

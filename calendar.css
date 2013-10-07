@@ -1,3 +1,25 @@
+@font-face {
+    font-family: 'QuicksandRegular';
+    src: url('assets/quicksand-regular.eot');
+    src: url('assets/quicksand-regular.eot?#iefix') format('embedded-opentype'),
+         url('assets/quicksand-regular.woff') format('woff'),
+         url('assets/quicksand-regular.ttf') format('truetype'),
+         url('assets/quicksand-regular.svg#quicksandregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* mouseover animation for calendar boxes */
+@-webkit-keyframes cs-cal-mouseover {
+    from { opacity: 1.0; } 
+    to { opacity: 0.5; }
+}
+
+@keyframes cs-cal-mouseover {
+    from { background: blue; opacity: 0.0; } 
+    to { background: blue; opacity: 0.5; }
+}
+
 #cs-calendarTable tr td {
 	border:1px solid black;
 }
@@ -9,14 +31,25 @@
 	padding: 20px;
 }
 
-.cs-classbox {
-	border:0px solid; 
+.cs-calElem {
+	border:0px; 
 	position: absolute;
-	background-color: purple;
+	color: #ffffff;
+
+	font-family: QuicksandRegular;
+	font-size:10px;
+	text-align:center;
+}
+
+.cs-classbox {
+	background-color: #6B71B2;
+}
+.cs-classbox:hover {
+	background-color: #6B71B2;
+	animation: cs-cal-mouseover 1s forwards;
+	-webkit-animation: cs-cal-mouseover 1s forwards; /* Safari and Chrome */
 }
 
 .cs-sectionbox {
-	border:0px solid; 
-	position: absolute;
-	background-color: red;
+	background-color: #68C4ED;
 }
