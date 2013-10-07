@@ -28,7 +28,7 @@
 							"R" : 3,
 							"F" : 4 }
 
-	var DEBUG = 1
+	var DEBUG = 0
 
 	calendar.addClass = function(course,section) {
 		dayNums = (function(dayStr) {
@@ -46,7 +46,7 @@
 				console.log("Cell Posn: " + cellposn.left + " " + cellposn.top)
 				console.log("LEN: " + timeToMinutes(course.end_t) + ", " + timeToMinutes(course.start_t))
 			}
-			classbox = "<div class='" +  (section ? "cs-sectionbox" : "cs-classbox") + "' style='top: " + cellposn.top + "px; left: " + cellposn.left + "px; width: " + CELL_WIDTH + "px; height: " + (timeToMinutes(course.end_t) - timeToMinutes(course.start_t))/10 * TEN_MINUTE_HEIGHT + "px;'>" + course.title + "</div>"
+			classbox = "<div class='" +  (section ? "cs-sectionbox" : "cs-classbox") + "' style='top: " + (cellposn.top + 1) + "px; left: " + (cellposn.left + 1) + "px; width: " + (CELL_WIDTH + 2) + "px; height: " + ((timeToMinutes(course.end_t) - timeToMinutes(course.start_t))/10 * TEN_MINUTE_HEIGHT + 2) + "px;'>" + course.title + "</div>"
 			$("#cs-calendarTable").append(classbox)
 		}
 		if (!section && course.section != null) {
@@ -60,8 +60,8 @@
 
 	calendar.drawCal = function(width,height) {
 		// Border is 1px on each side, so subtract 2px from both width and height
-		CELL_WIDTH = (width - 2 - TIME_FIELD_WIDTH) / 5 // M-F
-		CELL_HEIGHT = (height - 2 - HEADER_HEIGHT) / 10 // 8am-6pm
+		CELL_WIDTH = (width - 6 - TIME_FIELD_WIDTH) / 5 // M-F
+		CELL_HEIGHT = (height - 11 - HEADER_HEIGHT) / 10 // 8am-6pm
 		TEN_MINUTE_HEIGHT = CELL_HEIGHT / 6
 
 		var calTable = TABLE_HDR
@@ -95,20 +95,14 @@
 	calendar.makeCourse = function(start_t,end_t,days,title,section) {
 		return { "unique_id": 0, "title": title, "start_t": start_t, "end_t": end_t, "days": days, "section": section }
 	}
-}( window.calendar = window.calendar || {}, jQuery ));
 
-$(document).ready(function() {
-	// event handlers
-	$(".cs-calendarCell").click(function(event) {
-		// TODO
-		console.log("click event 1")
-	});
-	$(".cs-classbox").click(function(event) {
-		// TODO
-		console.log("click event 2")
-	});
-	$(".cs-sectionbox").click(function(event) {
-		// TODO
-		console.log("click event 3")
-	});
-});
+	calendar.init = function() {
+		// set up event handlers
+		$('.cs-sectionbox').click(function() {
+			$(this).css('background-color','green');
+		});
+		$('.cs-classbox').click(function() {
+			$(this).css('background-color','blue');
+		});
+	}
+}( window.calendar = window.calendar || {}, jQuery ));
