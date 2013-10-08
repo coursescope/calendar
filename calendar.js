@@ -15,7 +15,7 @@
 	var TIME_FIELD_WIDTH = 50
 	var HEADER_HEIGHT = 20
 
-	var TABLE_HDR = "<div><table id='cs-calendarTable'><tr class='headerRow' style='height:" + HEADER_HEIGHT + "px'> <td></td> <td>Monday</td> <td>Tuesday</td> <td>Wednesday</td> <td>Thursday</td> <td>Friday</td></tr>"
+	var TABLE_HDR = "<div><table id='cs-calendarTable'><tr class='cs-headerRow' style='height:" + HEADER_HEIGHT + "px'> <td></td> <td>Monday</td> <td>Tuesday</td> <td>Wednesday</td> <td>Thursday</td> <td>Friday</td></tr>"
 	var TABLE_FTR = "</table></div>"
 
 	var TEN_MINUTE_HEIGHT = 0
@@ -61,13 +61,15 @@
 			classbox = "<div id='" + course.start_t + "-" + dayNums[day] + "' class='cs-calElem " +  (section ? "cs-sectionbox" : "cs-classbox") + "' style='top: " + (cellposn.top + 1) + "px; left: " + (cellposn.left + 1) + "px; width: " + (CELL_WIDTH + 2) + "px; height: " + elemHeight + "px;'><span id='" + course.start_t + "-" + dayNums[day] + "-span' style='line-height:" + elemHeight + "px'>" + course.title.toUpperCase() + "</span></div>"
 			backgroundDiv = "<div style='position:absolute; background:white; top: " + (cellposn.top + 1) + "px; left: " + (cellposn.left + 1) + "px; width: " + (CELL_WIDTH + 2) + "px; height: " + elemHeight + "px;'></div>"
 
-			$("#cs-calendarTable").append(backgroundDiv)
 			$("#cs-calendarTable").append(classbox)
+			$(cell_id).append(backgroundDiv)
+
 
 		}
 		if (!section && course.section != null) {
 			calendar.addClass(course.section,true)
 		}
+		calendar.init();
 	}
 
 	function makeCell(width,height,unique_id) {
@@ -84,7 +86,7 @@
 		
 		for (var row = 8; row < 19; row++) {
 			timeStr = ((row > 12) ? (row - 12) : row) + ((row > 11) ? " PM" : " AM")
-			calTable += "<tr><td class='cs-timeField' style='width:" + TIME_FIELD_WIDTH+ "px'>" + timeStr + "</td>"
+			calTable += "<tr><td class='cs-timeCol' style='width:" + TIME_FIELD_WIDTH+ "px'>" + timeStr + "</td>"
 			for (var col = 0; col < 5; col++) {
 				calTable += makeCell(CELL_WIDTH,CELL_HEIGHT, row + "-" + col)
 			}
@@ -123,7 +125,9 @@
 		return null;
 	}
 	calendar.init = function() {
+		$('.cs-sectionbox').unbind('click');
 		$('.cs-sectionbox').click(function() {
+			$('.cs-sectionbox-selected').toggleClass('cs-sectionbox cs-sectionbox-selected');
 			uid = $(this).attr('id');
 
 			siblings = calendar.findSiblings('#' + uid);
@@ -131,7 +135,9 @@
 				$(siblings[s] + "-span").parent().toggleClass('cs-sectionbox cs-sectionbox-selected');
 			}
 		});	
+		$('.cs-classbox').unbind('click');
 		$('.cs-classbox').click(function() {
+			$('.cs-classbox-selected').toggleClass('cs-classbox cs-classbox-selected');
 			uid = $(this).attr('id');
 
 			siblings = calendar.findSiblings('#' + uid);
