@@ -1,0 +1,31 @@
+@-webkit-keyframes cs-slideFromLeft {
+    from { left:-500px; opacity: 0.6; } 
+    to { left:0px; opacity: 1.0; }
+}
+
+@keyframes cs-slideFromLeft {
+    from { left:-500px; opacity: 0.6; } 
+    to { left:0px; opacity: 1.0; }
+}
+
+.cs-classbox-container {
+    overflow:hidden;
+    color:black;
+    background-color:#ffc;
+    position:absolute;
+    width:500px;
+    height:100%;
+    top:0px;
+}
+
+.cs-classbox-container.cs-closeLeft {
+    display:none;
+    left:-500px;
+}
+.cs-classbox-container.cs-openLeft {
+    animation: cs-slideFromLeft 1s forwards;
+    -webkit-animation: cs-slideFromLeft 1s forwards; /* Safari and Chrome */
+    display:normal;
+    position:absolute;
+    background-color:red;
+}

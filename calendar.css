@@ -49,10 +49,12 @@
 
 .cs-classbox {
 	background-color: #6B71B2;
+	border-bottom: 1px solid black;
 }
 .cs-classbox-selected {
 	background-color: #6B71B2;
 	opacity: 0.5;
+	border-bottom: 1px solid black;
 }
 
 .cs-classbox:hover {
@@ -73,4 +75,8 @@
 	/*background-color: #68C4ED;*/
 	animation: cs-cal-mouseover 1s forwards;
 	-webkit-animation: cs-cal-mouseover 1s forwards; /* Safari and Chrome */
+}
+
+.cs-description-container {
+	
 }

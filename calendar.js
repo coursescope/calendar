@@ -32,6 +32,7 @@
 
 	m_selectedElem = null
 	m_courseCells = {}
+	m_selectedUid = 0
 
 	calendar.addClass = function(course,section) {
 		dayNums = (function(dayStr) {
@@ -69,6 +70,7 @@
 		if (!section && course.section != null) {
 			calendar.addClass(course.section,true)
 		}
+		setupSlidingPanel();
 		calendar.init();
 	}
 
@@ -137,13 +139,29 @@
 		});	
 		$('.cs-classbox').unbind('click');
 		$('.cs-classbox').click(function() {
+
 			$('.cs-classbox-selected').toggleClass('cs-classbox cs-classbox-selected');
 			uid = $(this).attr('id');
-
-			siblings = calendar.findSiblings('#' + uid);
-			for (s in siblings) {
-				$(siblings[s] + "-span").parent().toggleClass('cs-classbox cs-classbox-selected');
+			if (uid != m_selectedUid) {
+				m_selectedUid = uid
+				siblings = calendar.findSiblings('#' + uid);
+				for (s in siblings) {
+					$(siblings[s] + "-span").parent().toggleClass('cs-classbox cs-classbox-selected');
+				}
+			} else {
+				m_selectedUid = 0
+			}
+			if ($(this).attr('class').indexOf('cs-classbox-selected') != -1) {
+				$('.cs-classbox-container').removeClass('cs-closeLeft');
+				$('.cs-classbox-container').addClass('cs-openLeft');
+			} else {
+				$('.cs-classbox-container').removeClass('cs-openLeft');
+				$('.cs-classbox-container').addClass('cs-closeLeft');
 			}
 		});
+	}
+	function setupSlidingPanel() {
+		html = "<div class='cs-classbox-container cs-closeLeft'><h3>" + "Hello World :)" + "</h3><p>" + "Content goes here" + "</p></div>"
+		$("#cs-calendarTable").append(html)
 	}
 }( window.calendar = window.calendar || {}, jQuery ));
